@@ -102,7 +102,7 @@ kubectl create namespace free-service
 Apply ResourceQuota to free tier namespace.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/classify_free_rq.yaml --namespace=free-service
+kubectl create -f https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/classify_free_rq.yaml --namespace=free-service
 ```
 
 Build the pods.
@@ -128,6 +128,8 @@ eksctl delete cluster --name {cluster name from clstr.yaml}
 
 ```
 curl https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/server.py > server.py
+curl https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/classify_free_job.yaml > classify_free_job.yaml
+curl https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/classify_premium_job.yaml > classify_premium_job.yaml
 ```
 
 ### Testing job YAML with microkube

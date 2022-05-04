@@ -21,7 +21,7 @@ def get_config():
         # a pod:  {"node" : "node on which the pod is executing", "ip" : "ip address of the pod", "namespace" : "namespace of the node", "name" : "name of the pod", "status":"status of the pod"}
     pods = []
     all_pods = v1.list_pod_for_all_namespaces()
-    for pod in all_pods:
+    for pod in all_pods.items:
         pods.append({"node":pod.spec.node_name, "ip": pod.status.pod_ip, "namespace":pod.metadata.namespace, "name":pod.metadata.name, "status":pod.status.phase})
     
     output = {"pods": pods}
@@ -32,21 +32,21 @@ def get_config():
 @app.route('/img-classification/free',methods=['POST'])
 def post_free():
     # your code here
-    with open("classify_free_job", 'r') as fl:
+    with open("classify_free_job.yaml", 'r') as fl:
         job = yaml.safe_load(fl)
     api = client.BatchV1Api()
     status = api.create_namespaced_job(namespace="free-service", body=job)
-    return status
+    return "success", 200
 
 
 @app.route('/img-classification/premium', methods=['POST'])
 def post_premium():
     # your code here
-    with open("classify_premium_job", 'r') as fl:
+    with open("classify_premium_job.yaml", 'r') as fl:
         job = yaml.safe_load(fl)
     api = client.BatchV1Api()
     status = api.create_namespaced_job(namespace="default", body=job)
-    return status
+    return "success", 200
 
     
 if __name__ == "__main__":
