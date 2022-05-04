@@ -31,6 +31,8 @@ docker push ofirsov/uiuc-cs498-mp12:0.1
 
 ### Provision & ready EKS cluster
 
+In EC2...
+
 Set up AWS CLI.
 
 ```
@@ -62,10 +64,16 @@ curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/d
 sudo mv /tmp/eksctl /usr/local/bin
 ```
 
+Pull scripts.
+
+```
+curl https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/clstr.yaml > clstr.yaml
+```
+
 Using eksctl, set up cluster.
 
 ```
-eksctl create cluster -f clstr.yaml --name cs498-mp12-cluster
+eksctl create cluster -f clstr.yaml
 ```
 
 Verify cluster nodes.
@@ -77,7 +85,7 @@ kubectl get nodes
 To delete all created AWS resources, run below.
 
 ```
-eksctl delete cluster --name cs498-mp12-cluster
+eksctl delete cluster --name {cluster name from clstr.yaml}
 ```
 
 
@@ -85,23 +93,41 @@ eksctl delete cluster --name cs498-mp12-cluster
 
 Everything here can be run from a minimal EC2 instance.
 
-Create namespaces for premium (default) and free tiers.
+Create namespaces for premium (default, already exists) and free tiers.
 
 ```
-kubectl create namespace default
 kubectl create namespace free-service
 ```
 
 Apply ResourceQuota to free tier namespace.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/OleksF/scratch/main/classify_free_rq.yaml --namespace=free-service
+kubectl apply -f https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/classify_free_rq.yaml --namespace=free-service
 ```
 
 Build the pods.
 
 ```
-kubectl create -f https://raw.githubusercontent.com/OleksF/scratch/main/mp12.yaml
+kubectl create -f https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/classify_free_job.yaml --namespace=free-service
+kubectl create -f https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/classify_premium_job.yaml --namespace=default
+```
+
+Check for 3 default pods and 2 free-service ones.
+
+```
+kubectl get pods -A
+```
+
+To tear it all down...
+
+```
+eksctl delete cluster --name {cluster name from clstr.yaml}
+```
+
+### Server setup
+
+```
+curl https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/server.py > server.py
 ```
 
 ### Testing job YAML with microkube
@@ -109,7 +135,7 @@ kubectl create -f https://raw.githubusercontent.com/OleksF/scratch/main/mp12.yam
 ...
 
 ```
-kubectl create -f https://raw.githubusercontent.com/OleksF/scratch/main/classify_free_job.yaml
+kubectl create -f https://raw.githubusercontent.com/OleksF/EKS-classifier-minimal/main/classify_free_job.yaml
 kubectl get jobs --watch
 kubectl get job classify-free-job
 kubectl get pods

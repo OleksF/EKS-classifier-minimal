@@ -18,5 +18,4 @@ spec:
             cpu: "0.9"
       restartPolicy: Never
   backoffLimit: 4
-  parallelism: 2
   

@@ -35,7 +35,7 @@ def post_free():
     with open("classify_free_job", 'r') as fl:
         job = yaml.safe_load(fl)
     api = client.BatchV1Api()
-    status = api.create_namespaced_job(namespace="default", body=job)
+    status = api.create_namespaced_job(namespace="free-service", body=job)
     return status
 
 
