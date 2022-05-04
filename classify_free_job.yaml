@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: classify-free-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: classify-free-job
+        image: ofirsov/uiuc-cs498-mp12:0.1
+        env:
+        - name: DATASET
+          value: "mnist"
+        - name: TYPE
+          value: "ff"
+        resources:
+          limits:
+            cpu: "0.9"
+      restartPolicy: Never
+  backoffLimit: 4
+  parallelism: 2
+  

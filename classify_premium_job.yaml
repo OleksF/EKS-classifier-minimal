@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: classify-premium-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: classify-premium-job
+        image: ofirsov/uiuc-cs498-mp12:0.1
+        env:
+        - name: DATASET
+          value: "kmnist"
+        - name: TYPE
+          value: "cnn"
+        resources:
+          limits:
+            cpu: "0.9"
+      restartPolicy: Never
+  backoffLimit: 4
+  parallelism: 2
+  
