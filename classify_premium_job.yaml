@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: classify-premium-job
+  generateName: classify-premium-job-
 spec:
   template:
     spec:
