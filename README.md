@@ -1,6 +1,6 @@
 # EKS-classifier-minimal
 
-Runs a free and paid tier classification service on some mock data using EKS backend with eksctl.
+AWS Kubernetes stuff. Runs a free and paid tier classification service on some mock data using EKS backend with eksctl.
 
 Following files from UIUC CS498, Spring 2022:
 - `classify.py`
