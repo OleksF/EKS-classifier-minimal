@@ -13,12 +13,17 @@ app = Flask(__name__)
 
 @app.route('/config', methods=['GET'])
 def get_config():
+    """
+    Fetch cluster configuration info.
+    
+    BODY: { "pods": [pod1, pod2 ...]}
+    pods : a list of pods
+    a pod:  {"node" : "node on which the pod is executing", "ip" : "ip address of the pod",
+        "namespace" : "namespace of the node", "name" : "name of the pod", "status":"status of the pod"}
+    """
     pods = []
-
-    # your code here
-        # BODY: { "pods": [pod1, pod2 ...]}
-        # pods : a list of pods
-        # a pod:  {"node" : "node on which the pod is executing", "ip" : "ip address of the pod", "namespace" : "namespace of the node", "name" : "name of the pod", "status":"status of the pod"}
+    
+    
     pods = []
     all_pods = v1.list_pod_for_all_namespaces()
     for pod in all_pods.items:
@@ -31,7 +36,9 @@ def get_config():
 
 @app.route('/img-classification/free',methods=['POST'])
 def post_free():
-    # your code here
+    """
+    Create a job based on a POST request to the free tier, letting k8s do the routing as specified in the yaml w/ cluster config.
+    """
     with open("classify_free_job.yaml", 'r') as fl:
         job = yaml.safe_load(fl)
     api = client.BatchV1Api()
@@ -41,7 +48,9 @@ def post_free():
 
 @app.route('/img-classification/premium', methods=['POST'])
 def post_premium():
-    # your code here
+    """
+    Create a job based on a POST request to the premium tier, letting k8s do the routing as specified in the yaml w/ cluster config.
+    """
     with open("classify_premium_job.yaml", 'r') as fl:
         job = yaml.safe_load(fl)
     api = client.BatchV1Api()
