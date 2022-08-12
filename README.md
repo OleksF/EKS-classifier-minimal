@@ -5,7 +5,9 @@ In layman's terms, this sets up the cloud machinery to reliably run predictions 
 - load balancing between several instances of the model so that responses won't get slow with increased traffic
 - spinning up and shutting down resources as needed so that you're not overpaying for cloud use when you scale  
 
-Everything below is technical.
+Everything that follows is technical...
+
+---
 
 The following files are from UIUC CS498, Spring 2022:
 - `classify.py` - MNIST handwritten digits classifier; can be any classifier though
