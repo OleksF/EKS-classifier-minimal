@@ -3,7 +3,8 @@
 In layman's terms, this sets up the cloud machinery to reliably run predictions on a model hosted in the cloud from standard REST calls (as in Ml prediction requests made from your web pages, mobile apps, etc). Once your data scientists build a model, this can be used to deploy it in the state of the art Kubernetes (aka k8s) infrastructure framework. Features:
 - different levels of service based on user tier (free or paying)
 - load balancing between several instances of the model so that responses won't get slow with increased traffic
-- spinning up and shutting down resources as needed so that you're not overpaying for cloud use when you scale  
+- spinning up and shutting down resources as needed so that you're not overpaying for cloud use when you scale
+- continuous availability instead of waiting on the data science team to send an excel sheet or push new predictive scores once in a blue moon
 
 Everything that follows is technical...
 
